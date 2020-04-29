@@ -612,6 +612,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
       width = _atoi(&format);
     }
     else if (*format == '*') {
+      //Bad implementation of stdargs.h
+      //See: https://www.microchip.com/forums/m914454.aspx
       int w = va_arg(va, int);
       if (w < 0) {
         flags |= FLAGS_LEFT;    // reverse padding
@@ -632,6 +634,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
         precision = _atoi(&format);
       }
       else if (*format == '*') {
+        //Bad implementation of stdargs.h
+        //See: https://www.microchip.com/forums/m914454.aspx
         int prec = (int)va_arg(va, int);
         precision = prec > 0 ? (unsigned int)prec : 0U;
         format++;
@@ -725,10 +729,14 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
 #endif
           }
           else if (flags & FLAGS_LONG) {
+            //Bad implementation of stdargs.h
+            //See: https://www.microchip.com/forums/m914454.aspx
             long value = va_arg(va, long);
             idx = _ntoa_long(out, buffer, idx, maxlen, (unsigned long)(value > 0 ? value : 0 - value), value < 0, base, precision, width, flags);
           }
           else {
+            //Bad implementation of stdargs.h
+            //See: https://www.microchip.com/forums/m914454.aspx
             int value = (flags & FLAGS_CHAR) ? (char)va_arg(va, int) : (flags & FLAGS_SHORT) ? (short int)va_arg(va, int) : va_arg(va, int);
             idx = _ntoa_long(out, buffer, idx, maxlen, (unsigned int)(value > 0 ? value : 0 - value), value < 0, base, precision, width, flags);
           }
@@ -741,9 +749,13 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
 #endif
           }
           else if (flags & FLAGS_LONG) {
+            //Bad implementation of stdargs.h
+            //See: https://www.microchip.com/forums/m914454.aspx
             idx = _ntoa_long(out, buffer, idx, maxlen, va_arg(va, unsigned long), false, base, precision, width, flags);
           }
           else {
+            //Bad implementation of stdargs.h
+            //See: https://www.microchip.com/forums/m914454.aspx
             unsigned int value = (flags & FLAGS_CHAR) ? (unsigned char)va_arg(va, unsigned int) : (flags & FLAGS_SHORT) ? (unsigned short int)va_arg(va, unsigned int) : va_arg(va, unsigned int);
             idx = _ntoa_long(out, buffer, idx, maxlen, value, false, base, precision, width, flags);
           }
@@ -779,6 +791,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
           }
         }
         // char output
+        //Bad implementation of stdargs.h
+        //See: https://www.microchip.com/forums/m914454.aspx
         out((char)va_arg(va, int), buffer, idx++, maxlen);
         // post padding
         if (flags & FLAGS_LEFT) {
@@ -791,6 +805,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
       }
 
       case 's' : {
+        //Bad implementation of stdargs.h
+        //See: https://www.microchip.com/forums/m914454.aspx
         char* p = va_arg(va, char*);
         unsigned int l = _strnlen_s(p, precision ? precision : (size_t)-1);
         // pre padding
@@ -829,6 +845,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
         }
         else {
 #endif
+          //Bad implementation of stdargs.h
+          //See: https://www.microchip.com/forums/m914454.aspx
           idx = _ntoa_long(out, buffer, idx, maxlen, (unsigned long)((uintptr_t)va_arg(va, void*)), false, 16U, precision, width, flags);
 #if defined(PRINTF_SUPPORT_LONG_LONG)
         }
